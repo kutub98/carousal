@@ -1,0 +1,55 @@
+.carousel {
+  height: 500px;
+}
+
+.carousel-item {
+  height: 500px;
+}
+.item {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: 500px;
+}
+
+.item img {
+  width: 100%;
+  height: 500px;
+}
+
+.play-btn {
+  position: absolute;
+  width: 4vw;
+  height: 4vw;
+  left: 50%;
+  font-size: 2vw;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  font-size: 1vw;
+  background-color: rgba(204, 203, 203, 0.5);
+  border: none;
+  z-index: 999;
+}
+
+.video-container {
+  width: 100%;
+  max-width: 1020px;
+  margin: auto;
+  height: 100vh;
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  right: -10vw;
+  top: 5px;
+  width: 8vw;
+  background-color: rgb(37, 36, 36);
+  height: 4vw;
+  color: aliceblue;
+  padding: 0.5vw;
+  border-radius: 1vw;
+  cursor: pointer;
+  font-size: 1vw;
+}

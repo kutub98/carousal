@@ -1,85 +1,56 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
+  const playButtons = document.getElementsByClassName('play-btn');
+  const images = document.getElementsByClassName('img');
+  const videoContainer = document.querySelector('.video-container');
+  const videoFrame = document.querySelector('.video-frame');
+  const closeBtns = document.querySelectorAll('.close-btn');
+  const carouselDiv = document.querySelector('.carousel');
+
   const carouselItems = document.querySelectorAll('.carousel-item');
-  const fullscreenContainer = document.querySelector('.fullscreen-container');
-  const closeButton = document.querySelector('.close-button');
-  const fullscreenIframe = document.querySelector('.fullscreen-iframe');
-  const carouselNavLeft = document.querySelector('.carousel-nav-left');
-  const carouselNavRight = document.querySelector('.carousel-nav-right');
-  let currentIndex = 0;
 
+  for (let i = 0; i < playButtons.length; i++) {
+    playButtons[i].addEventListener('click', function () {
+      videoContainer.style.display = 'flex';
+      carouselDiv.style.display = 'none'; // Hide the carousel
+
+      // Load and play the video
+      const videoUrl = this.parentElement.getAttribute('data-video-url');
+      videoFrame.src = videoUrl;
+    });
+  }
+
+  // Close the video
+  closeBtns.forEach(closeBtn => {
+    closeBtn.addEventListener('click', function () {
+      // Pause the video
+      videoFrame.src = '';
+
+      // Hide the video container
+      videoContainer.style.display = 'none';
+
+      carouselDiv.style.display = 'flex';
+
+      // Show the corresponding image
+      const index = parseInt(this.getAttribute('data-index'));
+      images[index].style.display = 'grid';
+    });
+  });
+
+  // Dynamically generate carousel indicators
   carouselItems.forEach((item, index) => {
-    const playButton = item.querySelector('.play-button');
-    const overlay = item.querySelector('.overlay');
-    console.log(overlay); // Check if the overlay element is selected
-
-    playButton.addEventListener('click', function (event) {
-      event.stopPropagation();
-      const videoId = playButton.getAttribute('data-video');
-      console.log('Play button clicked');
-      openFullscreen(videoId);
-      currentIndex = index;
-      updateNavButtons();
-    });
-
-    overlay.addEventListener('click', function () {
-      const videoId = playButton.getAttribute('data-video');
-      console.log('Overlay clicked');
-      openFullscreen(videoId);
-      currentIndex = index;
-      updateNavButtons();
-    });
+    const indicator = document.createElement('div');
+    indicator.classList.add('carousel-indicator');
+    indicator.setAttribute('data-index', index);
+    carouselIndicators.appendChild(indicator);
   });
 
-  closeButton.addEventListener('click', closeFullscreen);
-
-  carouselNavLeft.addEventListener('click', function () {
-    if (currentIndex > 0) {
-      currentIndex--;
-      updateNavButtons();
-      const videoId = carouselItems[currentIndex]
-        .querySelector('.play-button')
-        .getAttribute('data-video');
-      openFullscreen(videoId);
-    }
-  });
-
-  carouselNavRight.addEventListener('click', function () {
-    if (currentIndex < carouselItems.length - 1) {
-      currentIndex++;
-      updateNavButtons();
-      const videoId = carouselItems[currentIndex]
-        .querySelector('.play-button')
-        .getAttribute('data-video');
-      openFullscreen(videoId);
-    }
-  });
-
-  function openFullscreen(videoId) {
-    const videoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-    fullscreenIframe.src = videoUrl;
-    fullscreenContainer.style.display = 'block';
-    carouselNavLeft.style.display = 'block';
-    carouselNavRight.style.display = 'block';
-  }
-
-  function closeFullscreen() {
-    fullscreenIframe.src = '';
-    fullscreenContainer.style.display = 'none';
-    carouselNavLeft.style.display = 'none';
-    carouselNavRight.style.display = 'none';
-  }
-
-  function updateNavButtons() {
-    if (currentIndex === 0) {
-      carouselNavLeft.style.display = 'none';
-    } else {
-      carouselNavLeft.style.display = 'block';
-    }
-
-    if (currentIndex === carouselItems.length - 1) {
-      carouselNavRight.style.display = 'none';
-    } else {
-      carouselNavRight.style.display = 'block';
-    }
-  }
+  // Add click event listener to carousel indicators
+  // carouselIndicators.addEventListener('click', event => {
+  //   const targetIndex = event.target.getAttribute('data-index');
+  //   if (targetIndex !== null) {
+  //     carouselItems.forEach((item, index) => {
+  //       item.style.display = index == targetIndex ? 'block' : 'none';
+  //     });
+  //   }
+  // });
 });
